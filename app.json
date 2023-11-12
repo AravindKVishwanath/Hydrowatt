@@ -1,0 +1,24 @@
+{
+  "expo": {
+    "name": "Hydrowatt-v1",
+    "slug": "Hydrowatt-v1",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    
+    "web": {
+      "favicon": "./assets/icon.png"
+    }
+  }
+}
+
+
