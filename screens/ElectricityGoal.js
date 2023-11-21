@@ -20,7 +20,7 @@ const updateGoal=async()=>{
   const goal ={
     ElectricityConsumptionGoal:goalText
   }
-  const response = await axios.put(`http://192.168.157.186:3000/ElectricityConsumptionGoal/${id}`,goal)
+  const response = await axios.put(`https://electrocode.onrender.com/ElectricityConsumptionGoal/${id}`,goal)
   alert("Electricity Consumption Goal set successfully")
   console.log(response)
 }
@@ -36,7 +36,7 @@ const updateGoal=async()=>{
 
     };
     const getnewdata=async()=>{
-      const response = await axios.get(`http://192.168.157.186:3000/getIdbyEmail/${email}`)
+      const response = await axios.get(`https://electrocode.onrender.com/getIdbyEmail/${email}`)
       setid(response.data._id)
     }
     getnewdata();

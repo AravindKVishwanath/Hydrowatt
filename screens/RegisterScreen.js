@@ -18,7 +18,7 @@ const RegisterScreen = () => {
         Email: Email,
         Password: Password,
       };
-      axios.post("http://192.168.157.186:3000/register",user).then((response)=>{
+      axios.post("https://electrocode.onrender.com/register",user).then((response)=>{
         console.log(response)
         Alert.alert("registration successful")
         setName("")

@@ -17,11 +17,11 @@ const HomeScreen = ({route,navigation}) =>{
   //console.log("Email",Email)
  
   
-Email = route.params;
+Email = route.params
 const getUserInfo = async (Email) => {
 
 try {
-  response = await axios.get(`http://192.168.157.186:3000/getUserInfo/${Email.Email}`);
+  response = await axios.get(`https://electrocode.onrender.com/getUserInfo/${Email.Email}`);
   setUserName(response.data.Name)
   console.log(userName)
 } catch (error) {

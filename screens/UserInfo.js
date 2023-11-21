@@ -15,6 +15,9 @@ const UserInfo = ({ route, navigation }) => {
   const [Id, setId] = useState('');
   const { email } = route.params;
   console.log(email)
+  const badge = [
+    "require('../assets/Gold.png')","require('../assets/SilverBadge.png')"
+  ]
 
   useLayoutEffect(()=>{
     navigation.setOptions({
@@ -51,7 +54,7 @@ const UserInfo = ({ route, navigation }) => {
     const getUserInfo = async (Email) => {
 
       try {
-        response = await axios.get(`http://192.168.157.186:3000/getUserInfo/${Email}`);
+        response = await axios.get(`https://electrocode.onrender.com/getUserInfo/${Email}`);
         setUserName(response.data.Name)
       } catch (error) {
         console.error('Error fetching user info:', error);
@@ -60,7 +63,7 @@ const UserInfo = ({ route, navigation }) => {
     };
     const idget = async (Email) => {
       try {
-        response = await axios.get(`http://192.168.157.186:3000/getIdbyEmail/${Email}`);
+        response = await axios.get(`https://electrocode.onrender.com/getIdbyEmail/${Email}`);
         setId(response.data._id)
         console.log(response.data._id)
       } catch (error) {
@@ -78,7 +81,7 @@ const UserInfo = ({ route, navigation }) => {
       profilePicture:"https://cdn3.iconfinder.com/data/icons/cool-avatars-2/190/00-07-2-512.png"
     }
     try {
-      response = await axios.put(`http://192.168.157.186:3000/profilePicture/${Id}`,profile);
+      response = await axios.put(`https://electrocode.onrender.com/profilePicture/${Id}`,profile);
       setprofile(response.data)
       console.log(response.data)
     } catch (error) {
@@ -91,7 +94,7 @@ const UserInfo = ({ route, navigation }) => {
       DailyStreak: 45 ///this value shud be updated 
     }
     try {
-      response = await axios.put(`http://192.168.157.186:3000/DailyStreak/${Id}`, daily);
+      response = await axios.put(`https://electrocode.onrender.com/DailyStreak/${Id}`, daily);
       setDailyStreak(response.data.DailyStreak)
       console.log(response.data.DailyStreak)
     } catch (error) {
@@ -104,7 +107,7 @@ const UserInfo = ({ route, navigation }) => {
       MonthlyStreak: 8 ///this value shud be updated 
     }
     try {
-      response = await axios.put(`http://192.168.157.186:3000/MonthlyStreak/${Id}`, monthly);
+      response = await axios.put(`https://electrocode.onrender.com/MonthlyStreak/${Id}`, monthly);
       setMonthlyStreak(response.data.MonthlyStreak)
       console.log(response.data.MonthlyStreak)
     } catch (error) {
@@ -138,8 +141,9 @@ const UserInfo = ({ route, navigation }) => {
         <View style={{ alignItems: "center", justifyContent: "center", padding: 20, margin: 10 }}>
           <Text style={{ fontSize: 18, margin: 5 }}>Badges Earned</Text>
           <View style={{ height: 170, width: 441, backgroundColor: "#D9D9D9", flexDirection: "row", borderRadius: 40 }}>
-            <Image style={{ height: 145, width: 145, margin: 10 }} source={require('../assets/Gold.png')} />
-            <Image style={{ height: 140, width: 140, margin: 10 }} source={require('../assets/SilverBadge.png')} />
+            {badge.map((souce,index)=>{
+              <Image source={souce} key={index} style={{ height: 140, width: 140, margin: 10 }}/>
+            })}
           </View>
           <View style={{ alignItems: "center", justifyContent: "center", flexDirection: "row", marginLeft: 70, marginTop: 10 }}>
             <View style={{ height: 120, width: 180, margin: 5, backgroundColor: "#D9D9D9", alignItems: "center", borderRadius: 15 }}>
@@ -166,3 +170,7 @@ const UserInfo = ({ route, navigation }) => {
 export default UserInfo
 
 const styles = StyleSheet.create({})
+/*
+<Image style={{ height: 145, width: 145, margin: 10 }} source={require('../assets/Gold.png')} />
+            <Image style={{ height: 140, width: 140, margin: 10 }} source={require('../assets/SilverBadge.png')} />
+            */

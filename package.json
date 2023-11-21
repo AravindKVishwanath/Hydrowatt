@@ -33,7 +33,9 @@
     "react-native-elements": "^3.4.3",
     "react-native-safe-area-context": "4.6.3",
     "react-native-screens": "~3.22.0",
-    "react-native-web": "~0.19.6"
+    "react-native-web": "~0.19.6",
+    "react-native-push-notification": "^8.1.1",
+    "@react-native-community/push-notification-ios": "^1.11.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

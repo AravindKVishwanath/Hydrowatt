@@ -8,6 +8,7 @@ const Goals1 = ({ route,navigation }) => {
   const [currentMonth, setCurrentMonth] = useState('');
   const [goalText, setGoalText] = useState('');
   const [id,setid] = useState('')
+  const [Waterdata ,setWaterData] = useState()
   const {email} = route.params;
 
   useEffect(() => {
@@ -21,12 +22,13 @@ const Goals1 = ({ route,navigation }) => {
 
     };
     const getnewdata=async()=>{
-      const response = await axios.get(`http://192.168.157.186:3000/getIdbyEmail/${email}`)
+      const response = await axios.get(`https://electrocode.onrender.com/getIdbyEmail/${email}`)
       setid(response.data._id)
     }
+    waterdata();
     getnewdata();
     setCurrentMonth(getCurrentMonth());
-  }, [email]);
+  }, []);
 
   const UserInfo =()=>{
     navigation.navigate("UserInfo");
@@ -38,10 +40,21 @@ const updateGoal=async()=>{
   const goal ={
     WaterConsumptionGoal:goalText
   }
-  const response = await axios.put(`http://192.168.157.186:3000/WaterConsumptionGoal/${id}`,goal)
+  const response = await axios.put(`https://electrocode.onrender.com/WaterConsumptionGoal/${id}`,goal)
   console.log(response)
 }
+const waterdata = async()=>{
+  try{
+  const response = await axios.get('http://electrocode.onrender.com/WaterData')
+  const arr = response.data;
+  const len = arr.length;
+  setWaterData(response.data[len-1].totalConsumption)
+  console.log("res water",response.data[len-1].totalConsumption)
+}catch(error){
+  console.log("Error fetching WaterData",error)
+}
 
+}
 
   useLayoutEffect(()=>{
     navigation.setOptions({
