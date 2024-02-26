@@ -1,42 +1,40 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useLayoutEffect } from 'react'
+import { StyleSheet, View, TouchableOpacity, Text} from 'react-native'
+import React, { useLayoutEffect, useRef, useState } from 'react'
 import { AntDesign } from 'expo-vector-icons'
 import { Image } from 'react-native-elements'
-import {
-  LineChart,
-  BarChart,
-  PieChart,
-  ProgressChart,
-  ContributionGraph,
-  StackedBarChart,
-} from "react-native-chart-kit";
 import { Dimensions } from 'react-native';
+import {Picker} from '@react-native-picker/picker';
+import { LineChart } from "react-native-gifted-charts";
+
 
 const ElecSummary = ({ navigation }) => {
 
-  const screenWidth = Dimensions.get("window").width -11;
-  console.log(screenWidth)
-  const data = {
-    labels: ["January", "February", "March", "April", "May", "June"],
-    datasets: [
-      {
-        data: [20, 45, 28, 80, 99, 43, 89, 0,23,23,23,23,45,67,7,8,123],
-        color: (opacity = 1) => `rgba(184, 95, 224, ${opacity})`, // optional
-        strokeWidth: 2 // optional
-      }
-    ],
-    legend: ["Rainy Days"] // optional
-  };
+  const screenWidth = Dimensions.get("window").width - 11;
+  //console.log(screenWidth);
+  const ref = useRef(null);
+  const lineData = [];
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]; // Number of days in each month
+  const currentDate = new Date();
+  const currentMonth = months[currentDate.getMonth()];
+  console.log(currentMonth);
+  const [selectedMonth, setSelectedMonth] = useState(currentMonth);
 
-  const chartConfig = {
-    backgroundGradientFrom: "#1E2923",
-    backgroundGradientFromOpacity: 0,
-    backgroundGradientTo: "#08130D",
-    backgroundGradientToOpacity: 0.5,
-    color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
-    strokeWidth: 2, // optional, default 3
-    barPercentage: 0.5,
-    useShadowColorFromDataset: false // optional
+
+  // Generate data for each day over 12 months
+  //let currentDate = new Date(2023, 0, 1); // Start date: January 1, 2023
+  for (let i = 0; i < 12; i++) { // Loop for 12 months
+    const days = daysInMonth[i]; // Number of days in the current month
+    for (let j = 0; j < days; j++) { // Loop for each day in the month
+      const value = Math.floor(Math.random() * 50) + 1; // Random value for demonstration
+      const label = `${months[i]} ${j + 1}`; // Format: Month Day
+      lineData.push({ value, label }); // Add data for the current day
+    }
+  }
+
+  const showOrHidePointer = (month) => {
+    const index = months.indexOf(month);
+    ref.current?.scrollTo({ x: index - 20}); // adjust as per your UI
   };
 
   const UserInfo = () => {
@@ -48,24 +46,18 @@ const ElecSummary = ({ navigation }) => {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: "Watt Summary",
-      headerStyle: { backgroundColor: "#fff" },
-      headerTitleStyle: {
-        color: "black",
-        textAlign: "center",
-        alignItems: "center",
-        justifyContent: "center"
-      },
+      title: "Electricity Summary",
+      headerStyle: { backgroundColor: "white" },
       headerTintColor: "black",
       headerLeft: () => (
-        <View style={{ marginLeft: 10 }}>
-          <TouchableOpacity onPress={Home} activeOpacity={0.5} style={{ marginRight: 70 }}>
+        <View style={{ marginLeft: 20 }}>
+          <TouchableOpacity onPress={Home} activeOpacity={0.5} style={{ marginRight: 37}}>
             <Image style={{ height: 45, width: 45 }} source={require('../assets/icon.png')} />
           </TouchableOpacity>
         </View>
       ),
       headerRight: () => (
-        <View style={{ flexDirection: "row", justifyContent: "space-between", width: 80, marginRight: 20 }}>
+        <View style={{ flexDirection: "row", justifyContent: "space-between", width: 100}}>
           <TouchableOpacity onPress={UserInfo} activeOpacity={0.5} style={{ marginLeft: 50 }}>
             <AntDesign name='user' size={24} color='black' />
           </TouchableOpacity>
@@ -77,19 +69,25 @@ const ElecSummary = ({ navigation }) => {
   }, [navigation])
   return (
     <View>
-      <LineChart
-        data={data}
-        width={screenWidth}
-        height={220}
-        chartConfig={chartConfig}
-      />
-      <BarChart
-        data={data}
-        width={screenWidth}
-        height={220}
-        yAxisLabel="Rainy Days"
-        chartConfig={chartConfig}
-        verticalLabelRotation={30}
+        <Picker 
+          style={{ width: 150, marginLeft: 120, marginTop: 20, color: 'green', position: 'relative' }}
+          selectedValue={selectedMonth}
+          onValueChange={(itemValue) => {
+            setSelectedMonth(itemValue);
+            showOrHidePointer(itemValue);
+          }}
+        >
+          {months.map((month, index) => (
+            //console.log(month)
+            <Picker.Item key={index} label={month} value={month}  style={{fontSize:14}}/>
+          ))}
+        </Picker>
+      <LineChart style={{top: '20'}}
+        scrollRef={ref}
+        data={lineData.filter(item => item.label.startsWith(selectedMonth))} // Filter data for selected month
+        curved
+        initialSpacing={0}
+        hideDataPoints
       />
     </View>
   )

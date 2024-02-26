@@ -1,0 +1,8 @@
+redux implementation
+change all props
+handle axios error while switching between screens after first time login
+handle mounting and unmounting of components
+function to update monthly and daily streak without disturbing login data
+water and electricity data reflection
+graphs
+progress bars

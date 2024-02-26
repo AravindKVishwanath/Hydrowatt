@@ -18,6 +18,16 @@ const UserInfo = ({ route, navigation }) => {
   const badge = [
     "require('../assets/Gold.png')","require('../assets/SilverBadge.png')"
   ]
+  const currentDate = new Date();
+
+  const updateDaily = async()=>{
+    const date = currentDate.getDate();
+    console.log(date)
+  }
+
+  const updateMonthly = async()=>{
+    const month = currentDate.getMonth();
+  }
 
   useLayoutEffect(()=>{
     navigation.setOptions({
@@ -60,7 +70,7 @@ const UserInfo = ({ route, navigation }) => {
         console.error('Error fetching user info:', error);
         return null;
       }
-    };
+    }
     const idget = async (Email) => {
       try {
         response = await axios.get(`https://electrocode.onrender.com/getIdbyEmail/${Email}`);
@@ -71,6 +81,9 @@ const UserInfo = ({ route, navigation }) => {
         return null;
       }
     }
+    
+
+    updateDaily();
     idget(email)
     getUserInfo(email)
 
@@ -91,7 +104,7 @@ const UserInfo = ({ route, navigation }) => {
   }
   const Daily = async (Id) => {
     const daily = {
-      DailyStreak: 45 ///this value shud be updated 
+      DailyStreak: DailyStreak, ///this value shud be updated 
     }
     try {
       response = await axios.put(`https://electrocode.onrender.com/DailyStreak/${Id}`, daily);
@@ -104,7 +117,7 @@ const UserInfo = ({ route, navigation }) => {
   }
   const Monthly = async (Id) => {
     const monthly = {
-      MonthlyStreak: 8 ///this value shud be updated 
+      MonthlyStreak: MonthlyStreak ///this value shud be updated 
     }
     try {
       response = await axios.put(`https://electrocode.onrender.com/MonthlyStreak/${Id}`, monthly);
@@ -121,7 +134,7 @@ const UserInfo = ({ route, navigation }) => {
   Daily(Id)
   const Home = ()=>{
     navigation.navigate("Dashboard",email);}
-  
+
 
   const signOutUser = () => {
     signOut(auth).then(() => {
@@ -141,9 +154,8 @@ const UserInfo = ({ route, navigation }) => {
         <View style={{ alignItems: "center", justifyContent: "center", padding: 20, margin: 10 }}>
           <Text style={{ fontSize: 18, margin: 5 }}>Badges Earned</Text>
           <View style={{ height: 170, width: 441, backgroundColor: "#D9D9D9", flexDirection: "row", borderRadius: 40 }}>
-            {badge.map((souce,index)=>{
-              <Image source={souce} key={index} style={{ height: 140, width: 140, margin: 10 }}/>
-            })}
+              <Image source={require('../assets/Gold.png')} style={{ height: 140, width: 140, margin: 10 }}/>
+             <Image source={require('../assets/SilverBadge.png')} style={{ height: 140, width: 140, margin: 10 }}/>
           </View>
           <View style={{ alignItems: "center", justifyContent: "center", flexDirection: "row", marginLeft: 70, marginTop: 10 }}>
             <View style={{ height: 120, width: 180, margin: 5, backgroundColor: "#D9D9D9", alignItems: "center", borderRadius: 15 }}>
@@ -170,7 +182,3 @@ const UserInfo = ({ route, navigation }) => {
 export default UserInfo
 
 const styles = StyleSheet.create({})
-/*
-<Image style={{ height: 145, width: 145, margin: 10 }} source={require('../assets/Gold.png')} />
-            <Image style={{ height: 140, width: 140, margin: 10 }} source={require('../assets/SilverBadge.png')} />
-            */

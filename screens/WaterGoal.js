@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, Alert } from 'react-native';
 import React, { useState, useEffect, useLayoutEffect } from 'react';
 import { AntDesign } from 'expo-vector-icons';
 import axios from 'axios';
@@ -42,6 +42,7 @@ const updateGoal=async()=>{
   }
   const response = await axios.put(`https://electrocode.onrender.com/WaterConsumptionGoal/${id}`,goal)
   console.log(response)
+  Alert.alert("update Successful")
 }
 const waterdata = async()=>{
   try{

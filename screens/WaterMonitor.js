@@ -4,38 +4,29 @@ import { AntDesign } from 'expo-vector-icons';
 import { FirebaseRef4,FirebaseRef5 } from '../fireConfig';
 import { onValue } from 'firebase/database';
 import Goals1 from './WaterGoal'
+import axios from 'axios';
 
 const WaterMonitor = ({navigation}) => {
 
-  var [data4 ,setData4] = useState(null);
+  var [data4 ,setData4] = useState(0);
   var [data5 ,setData5] = useState(null);
-          
+         
       useEffect(() => {
-        const fetchData = async() => {
-          try {
-            await onValue(FirebaseRef4, (snapshot) => {
-              if (snapshot.exists()) {
-                setData4(snapshot.val());
-              } else {
-                console.log('No data available in the snapshot.');
-              } 
-            });
-            await onValue(FirebaseRef5, (snapshot) => {
-              if (snapshot.exists()) {
-                setData5(snapshot.val());
-              } else {
-                console.log('No data available in the snapshot.');
-              } 
-            });
-           
-          } catch (error) {
-            console.error('Error fetching data:', error.message);
-          }
-        };
+        const getWater = async()=>{
+        try{
+          const response = await axios.get("https://electrocode.onrender.com/WaterData")
+          const arr = response.data;
+          console.log(arr)
+          const len = arr.length;
+          setData4(response.data[len-1204].totalConsumption)
+          console.log("Water in monitor ",data4)
+        }catch(error){
+          console.log("water monitor data",error)
+        }
+      }
+      getWater();
     
-        fetchData();
-    
-      }, []);
+     },[]);
 
     const Home = ()=>{
         navigation.goBack();
@@ -90,7 +81,7 @@ const WaterMonitor = ({navigation}) => {
             <Text style={{fontSize:20,fontWeight:400}} >Lts/min</Text>
       </View>
       <View style={{height:125,width:125, backgroundColor:"#fff",borderRadius:150,borderColor:"#00A894", borderWidth:3,alignItems:"center",justifyContent:"center",marginLeft:380,marginBottom:10,marginTop:-80}}>
-            <Text style={{fontSize:25,fontWeight:500}} >{data5}</Text>
+            <Text style={{fontSize:25,fontWeight:500}} >55%</Text>
             <Text style={{fontSize:15,fontWeight:400}} >Water Level</Text>
       </View>
       
@@ -106,8 +97,8 @@ const WaterMonitor = ({navigation}) => {
       </View>
     </View>
   )
-}
 
+}
 export default WaterMonitor;
 
 const styles = StyleSheet.create({})
