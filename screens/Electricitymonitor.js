@@ -1,30 +1,40 @@
 import { StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
-import { initializeApp } from 'firebase/app';
-import { getDatabase, ref } from 'firebase/database';
+import { current } from '../fireConfig'
 import { AntDesign } from 'expo-vector-icons'
 import Goals from './ElectricityGoal'
 import { onValue } from 'firebase/database'
+import axios from 'axios'
 
 const ElectricityMonitor = ({navigation}) => {
+  const [currentData, setCurrentData] = useState(0);
+  const [CurrentArray, setCurrentArray] = useState([]);
 
-  const [realTimeData, setRealTimeData] = useState('');
+  const fetchData=()=>{
+    onValue(current,(snapshot)=>{
+      const data = snapshot.val();
+      console.log(data);
+      setCurrentData(data);
+      const currentDate = new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'short' });
+      setCurrentArray((prevData)=>[...prevData,{current:data,date:currentDate}])
+      const power = {current:data,date:currentDate};
+      updateCurrent(power);
+      //console.log(CurrentArray)
+    })
+  }
+console.log(CurrentArray)
+  const updateCurrent=async(power)=>{
+    try{
+      const response = await axios.put("https://electrocode.onrender.com/currentData/Hydrowatt",power)
+      console.log("heloo",response.data)
+    }catch(err){
+      console.log(err);
+    }
+  }
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyDp9KMEmeYz-RnY45NlSFZ5Papu4cBcD2w",
-    authDomain: "smartindiahackathon-72241.firebaseapp.com",
-    databaseURL: "https://smartindiahackathon-72241-default-rtdb.firebaseio.com",
-    projectId: "smartindiahackathon-72241",
-    storageBucket: "smartindiahackathon-72241.appspot.com",
-    messagingSenderId: "813233803884",
-    appId: "1:813233803884:web:57df3c5ed84ca4b8cabe49",
-    measurementId: "G-91XERGXZ0E"
-    };
-  
-    const app = initializeApp(firebaseConfig);
-    const database = getDatabase(app);
-    const data1 = ref(database, 'Total Consumption')
-    //const [TotalConsumption,setTotalConsumption] = useState(data1)
+  useEffect(()=>{
+    fetchData();
+  },[])
     const Home = ()=>{
         navigation.goBack();
     }
@@ -71,7 +81,7 @@ const ElectricityMonitor = ({navigation}) => {
       </View> 
       <View style={{height:100}}/> 
       <View style={{height:200,width:200, backgroundColor:"#fff",borderRadius:150,borderColor:"#00A894", borderWidth:5,alignItems:"center",justifyContent:"center",marginTop:-50}}>
-            <Text style={{fontSize:40,fontWeight:500}} >183</Text>
+            <Text style={{fontSize:40,fontWeight:500}} >{currentData}</Text>
             <Text style={{fontSize:20,fontWeight:400}} >KWh</Text>
       </View>
       <View style={{height:125,width:125, backgroundColor:"#fff",borderRadius:150,borderColor:"#00A894", borderWidth:3,alignItems:"center",justifyContent:"center",marginLeft:380,marginBottom:10,marginTop:-60}}>
@@ -96,4 +106,4 @@ const ElectricityMonitor = ({navigation}) => {
   )
 }
 
-export default ElectricityMonitor;
+export default ElectricityMonitor

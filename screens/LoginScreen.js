@@ -13,14 +13,14 @@ const [Password, setPassword] = useState("");
 const navigation = useNavigation()
 const { getdata } = route.params;
 /*useEffect(()=>{
-    const checkLoginStatus = async()=>{
+  const checkLoginStatus = async()=>{
       try{
         const token= await AsyncStorage.getItem("authToken")
       console.log(token)
         if(token){
           setTimeout(()=>{
             navigation.replace("Dashboard",{Email:Email})
-          },1)
+          },1000)
         }
       }catch(error){
         console.log("Error in checking login Status",error)

@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getDatabase, ref } from 'firebase/database';
+import { getDatabase, onValue, ref } from 'firebase/database';
 import "firebase/firestore";
 import "firebase/auth";
 
@@ -17,18 +17,15 @@ const firebaseConfig = {
   const app = initializeApp(firebaseConfig);
 
   const database = getDatabase(app);
-  console.log("database",database)
-//const FirebaseRef1 = ref(database, 'Consumption');
-//const FirebaseRef2 = ref(database, 'Total Consumption');
-//const FirebaseRef3 = ref(database, 'Volts');
+const flowRate = ref(database, 'Flowrate');
+const Total_Consumption = ref(database, 'Total Consumption');
+const current = ref(database, 'Current');
 //const FirebaseRef4 = ref(database, 'Incoming Water');
 //const FirebaseRef5 = ref(database, 'WaterLevel');
 //console.log("hello ",FirebaseRef1)
 
 export {
-  //FirebaseRef1,
-  //FirebaseRef2,
-  //FirebaseRef3,
-  //FirebaseRef4,
-  //FirebaseRef5,
+  flowRate,
+  Total_Consumption,
+  current
 }

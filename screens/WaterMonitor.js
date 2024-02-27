@@ -1,32 +1,52 @@
 import { StyleSheet, Text, TouchableOpacity, View , Image} from 'react-native'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { AntDesign } from 'expo-vector-icons';
-import { FirebaseRef4,FirebaseRef5 } from '../fireConfig';
+import { flowRate,Total_Consumption } from '../fireConfig';
 import { onValue } from 'firebase/database';
 import Goals1 from './WaterGoal'
 import axios from 'axios';
 
 const WaterMonitor = ({navigation}) => {
 
-  var [data4 ,setData4] = useState(0);
-  var [data5 ,setData5] = useState(null);
-         
-      useEffect(() => {
-        const getWater = async()=>{
-        try{
-          const response = await axios.get("https://electrocode.onrender.com/WaterData")
-          const arr = response.data;
-          console.log(arr)
-          const len = arr.length;
-          setData4(response.data[len-1204].totalConsumption)
-          console.log("Water in monitor ",data4)
-        }catch(error){
-          console.log("water monitor data",error)
-        }
-      }
-      getWater();
-    
-     },[]);
+  const [Flowrate, setFlowrate]  = useState(0)
+  const [TotalConsumption, setTotalconsumption] = useState(0)
+  const [waterArray, setWaterArray] = useState([]);
+
+  const fetchData=()=>{
+    let data1=1;
+    let data2=25.55
+    onValue(flowRate,(snapshot)=>{
+      data1 = snapshot.val();
+      console.log(data1);
+      setFlowrate(data1);     
+      //console.log(CurrentArray)
+    })
+    onValue(Total_Consumption,(snapshot)=>{
+      data2 = snapshot.val()
+      console.log(data2)
+      setTotalconsumption(data2);
+    })
+    const currentDate = new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'short' });
+    setWaterArray((prevData)=>[...prevData,{flowRate:data1,TotalConsumption:data2,date:currentDate}])
+    console.log(waterArray);
+    let water = {flowRate:data1,TotalConsumption:data2,date:currentDate}
+    updateWater(water);
+  }
+  
+console.log(waterArray)
+  const updateWater=async(water)=>{
+    try{
+      const response = await axios.put("https://electrocode.onrender.com/waterData/Hydrowatt",water)
+      console.log("heloo",response.data)
+    }catch(err){
+      console.log(err);
+    }
+  }
+
+  useEffect(()=>{
+    fetchData();
+  },[])
+  
 
     const Home = ()=>{
         navigation.goBack();
@@ -77,11 +97,11 @@ const WaterMonitor = ({navigation}) => {
       </View>
       <View style={{height:180}}/>  
       <View style={{height:200,width:200, backgroundColor:"#fff",borderRadius:150,borderColor:"#00A894", borderWidth:5,alignItems:"center",justifyContent:"center",marginTop:-80}}>
-            <Text style={{fontSize:40,fontWeight:500}} >{data4}</Text>
+            <Text style={{fontSize:40,fontWeight:500}} >{Flowrate}</Text>
             <Text style={{fontSize:20,fontWeight:400}} >Lts/min</Text>
       </View>
       <View style={{height:125,width:125, backgroundColor:"#fff",borderRadius:150,borderColor:"#00A894", borderWidth:3,alignItems:"center",justifyContent:"center",marginLeft:380,marginBottom:10,marginTop:-80}}>
-            <Text style={{fontSize:25,fontWeight:500}} >55%</Text>
+            <Text style={{fontSize:25,fontWeight:500}} >{TotalConsumption}%</Text>
             <Text style={{fontSize:15,fontWeight:400}} >Water Level</Text>
       </View>
       

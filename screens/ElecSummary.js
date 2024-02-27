@@ -1,10 +1,11 @@
 import { StyleSheet, View, TouchableOpacity, Text} from 'react-native'
-import React, { useLayoutEffect, useRef, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { AntDesign } from 'expo-vector-icons'
 import { Image } from 'react-native-elements'
 import { Dimensions } from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import { LineChart } from "react-native-gifted-charts";
+import axios from 'axios';
 
 
 const ElecSummary = ({ navigation }) => {
@@ -28,7 +29,7 @@ const ElecSummary = ({ navigation }) => {
     for (let j = 0; j < days; j++) { // Loop for each day in the month
       const value = Math.floor(Math.random() * 50) + 1; // Random value for demonstration
       const label = `${months[i]} ${j + 1}`; // Format: Month Day
-      lineData.push({ value, label }); // Add data for the current day
+      //lineData.push({ value, label }); // Add data for the current day
     }
   }
 
@@ -43,6 +44,23 @@ const ElecSummary = ({ navigation }) => {
   const Home = () => {
     navigation.goBack();
   }
+
+
+  useEffect(()=>{
+      const getcurrentData =async()=>{
+        try{
+          const response = await axios.get("https://electrocode.onrender.com/getCurrentData/Hydrowatt")
+          console.log("res",response.data.currentData);
+          lineData.push(response.data.currentData);
+          console.log("line",lineData)
+        }catch(error){
+          console.log("currentData",error)
+        }
+        
+      }
+      getcurrentData()
+  },[])
+
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -84,7 +102,7 @@ const ElecSummary = ({ navigation }) => {
         </Picker>
       <LineChart style={{top: '20'}}
         scrollRef={ref}
-        data={lineData.filter(item => item.label.startsWith(selectedMonth))} // Filter data for selected month
+        data={lineData.filter(item => console.log("ksdsd",item))} // Filter data for selected month
         curved
         initialSpacing={0}
         hideDataPoints
