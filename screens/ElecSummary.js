@@ -13,18 +13,48 @@ const ElecSummary = ({ navigation }) => {
   const screenWidth = Dimensions.get("window").width - 11;
   //console.log(screenWidth);
   const ref = useRef(null);
-  const lineData = [];
+  //const lineData = [];
+  let lineData2=[]
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   const daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]; // Number of days in each month
   const currentDate = new Date();
   const currentMonth = months[currentDate.getMonth()];
   console.log(currentMonth);
   const [selectedMonth, setSelectedMonth] = useState(currentMonth);
+  const [lineData, setLineData] = useState([]);
 
+
+  const formatChartData = (rawData) => {
+    const formattedData = rawData.map((item) => {
+        const dateParts = item.date.split(' ');
+        const formattedDate = `${selectedMonth} ${dateParts[0]}`; // Format date as "Month Day"
+
+        return {
+            value: item.current,
+            label: formattedDate,
+        };
+    });
+
+    return formattedData;
+  };
+
+  useEffect(() => {
+    const getcurrentData = async () => {
+        try {
+            const response = await axios.get("https://electrocode.onrender.com/getCurrentData/Hydrowatt");
+            const formattedData = formatChartData(response.data.currentData);
+            setLineData(formattedData);
+        } catch (error) {
+            console.log("Error fetching data:", error);
+        }
+    };
+
+    getcurrentData();
+}, [selectedMonth]);
 
   // Generate data for each day over 12 months
   //let currentDate = new Date(2023, 0, 1); // Start date: January 1, 2023
-  for (let i = 0; i < 12; i++) { // Loop for 12 months
+  /*for (let i = 0; i < 12; i++) { // Loop for 12 months
     const days = daysInMonth[i]; // Number of days in the current month
     for (let j = 0; j < days; j++) { // Loop for each day in the month
       const value = Math.floor(Math.random() * 50) + 1; // Random value for demonstration
@@ -32,7 +62,7 @@ const ElecSummary = ({ navigation }) => {
       //lineData.push({ value, label }); // Add data for the current day
     }
   }
-
+*/
   const showOrHidePointer = (month) => {
     const index = months.indexOf(month);
     ref.current?.scrollTo({ x: index - 20}); // adjust as per your UI
@@ -45,14 +75,15 @@ const ElecSummary = ({ navigation }) => {
     navigation.goBack();
   }
 
-
+/*
   useEffect(()=>{
       const getcurrentData =async()=>{
         try{
           const response = await axios.get("https://electrocode.onrender.com/getCurrentData/Hydrowatt")
           console.log("res",response.data.currentData);
           lineData.push(response.data.currentData);
-          console.log("line",lineData)
+          lineData2 = [...lineData[0]]
+          console.log("line",lineData2)
         }catch(error){
           console.log("currentData",error)
         }
@@ -60,7 +91,7 @@ const ElecSummary = ({ navigation }) => {
       }
       getcurrentData()
   },[])
-
+*/
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -102,7 +133,8 @@ const ElecSummary = ({ navigation }) => {
         </Picker>
       <LineChart style={{top: '20'}}
         scrollRef={ref}
-        data={lineData.filter(item => console.log("ksdsd",item))} // Filter data for selected month
+        //data={lineData2.filter(item => item.data.startsWith(selectedMonth))} // Filter data for selected month
+        data={lineData}
         curved
         initialSpacing={0}
         hideDataPoints

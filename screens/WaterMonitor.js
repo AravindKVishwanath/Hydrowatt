@@ -101,7 +101,7 @@ console.log(waterArray)
             <Text style={{fontSize:20,fontWeight:400}} >Lts/min</Text>
       </View>
       <View style={{height:125,width:125, backgroundColor:"#fff",borderRadius:150,borderColor:"#00A894", borderWidth:3,alignItems:"center",justifyContent:"center",marginLeft:380,marginBottom:10,marginTop:-80}}>
-            <Text style={{fontSize:25,fontWeight:500}} >{TotalConsumption}%</Text>
+            <Text style={{fontSize:25,fontWeight:500}} >{TotalConsumption.toFixed(2)}%</Text>
             <Text style={{fontSize:15,fontWeight:400}} >Water Level</Text>
       </View>
       
