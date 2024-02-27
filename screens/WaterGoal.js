@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, Alert } fro
 import React, { useState, useEffect, useLayoutEffect } from 'react';
 import { AntDesign } from 'expo-vector-icons';
 import axios from 'axios';
+import WaterProgressBar from './WaterProgres';
 
 const Goals1 = ({ route,navigation }) => {
   const [currentMonth, setCurrentMonth] = useState('');
@@ -44,6 +45,7 @@ const updateGoal=async()=>{
   console.log(response)
   Alert.alert("update Successful")
 }
+/*
 const waterdata = async()=>{
   try{
   const response = await axios.get('http://electrocode.onrender.com/WaterData')
@@ -55,7 +57,7 @@ const waterdata = async()=>{
   console.log("Error fetching WaterData",error)
 }
 
-}
+}*/
 
   useLayoutEffect(()=>{
     navigation.setOptions({
@@ -109,6 +111,7 @@ const waterdata = async()=>{
   </View>
   <View style={styles.green1}>
     <Text style={styles.textInBox}>Progress</Text>
+    <WaterProgressBar></WaterProgressBar>
   </View>
       <StatusBar style="auto" />
     </View>
