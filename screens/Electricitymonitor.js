@@ -82,7 +82,7 @@ console.log(CurrentArray)
       <View style={{height:100}}/> 
       <View style={{height:200,width:200, backgroundColor:"#fff",borderRadius:150,borderColor:"#00A894", borderWidth:5,alignItems:"center",justifyContent:"center",marginTop:-50}}>
             <Text style={{fontSize:40,fontWeight:500}} >{currentData}</Text>
-            <Text style={{fontSize:20,fontWeight:400}} >KWh</Text>
+            <Text style={{fontSize:20,fontWeight:400}} >watts</Text>
       </View>
       <View style={{height:125,width:125, backgroundColor:"#fff",borderRadius:150,borderColor:"#00A894", borderWidth:3,alignItems:"center",justifyContent:"center",marginLeft:380,marginBottom:10,marginTop:-60}}>
             <Text style={{fontSize:20,fontWeight:500}} >5</Text>

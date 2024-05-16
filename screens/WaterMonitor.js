@@ -36,8 +36,8 @@ const WaterMonitor = ({navigation}) => {
 console.log(waterArray)
   const updateWater=async(water)=>{
     try{
-      const response = await axios.put("https://electrocode.onrender.com/waterData/Hydrowatt",water)
-      console.log("heloo",response.data)
+      const response = await axios.put("https://electrocode.onrender.com/waterData/AravindK",water)
+      console.log("heloo23",response.data)
     }catch(err){
       console.log(err);
     }
@@ -97,7 +97,7 @@ console.log(waterArray)
       </View>
       <View style={{height:180}}/>  
       <View style={{height:200,width:200, backgroundColor:"#fff",borderRadius:150,borderColor:"#00A894", borderWidth:5,alignItems:"center",justifyContent:"center",marginTop:-80}}>
-            <Text style={{fontSize:40,fontWeight:500}} >{Flowrate}</Text>
+            <Text style={{fontSize:40,fontWeight:500}} >{Flowrate.toFixed(2)}</Text>
             <Text style={{fontSize:20,fontWeight:400}} >Lts/min</Text>
       </View>
       <View style={{height:125,width:125, backgroundColor:"#fff",borderRadius:150,borderColor:"#00A894", borderWidth:3,alignItems:"center",justifyContent:"center",marginLeft:380,marginBottom:10,marginTop:-80}}>
@@ -107,10 +107,10 @@ console.log(waterArray)
       
       <View style={{height:180}}/>
       <View style={{flexDirection:"row",marginLeft:150}}>
-        <TouchableOpacity style={{width:150,height:50,backgroundColor:"#00A894",borderRadius:30,justifyContent:"center",alignItems:"center"}}
+        {/*<TouchableOpacity style={{width:150,height:50,backgroundColor:"#00A894",borderRadius:30,justifyContent:"center",alignItems:"center"}}
          onPress={() => navigation.navigate('WaterGoal')}>
                 <Text>Goals</Text>
-        </TouchableOpacity>
+  </TouchableOpacity>*/}
         <TouchableOpacity onPress={WaterSummary} style={{marginLeft:20,width:150,height:50,backgroundColor:"#00A894",borderRadius:30,justifyContent:"center",alignItems:"center"}}>
                 <Text>Summary</Text>
         </TouchableOpacity>

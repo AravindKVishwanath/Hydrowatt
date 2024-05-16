@@ -14,11 +14,16 @@
     "assetBundlePatterns": [
       "**/*"
     ],
-    
     "web": {
       "favicon": "./assets/icon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "4891c9b5-5147-4937-8046-88a1a537b7e4"
+      }
+    },
+    "android": {
+      "package": "com.aravindkvishwanath.Hydrowattv1"
     }
   }
 }
-
-
