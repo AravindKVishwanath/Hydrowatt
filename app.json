@@ -24,6 +24,9 @@
     },
     "android": {
       "package": "com.aravindkvishwanath.Hydrowattv1"
+    },
+    "ios": {
+      "bundleIdentifier": "com.aravindkvishwanath.Hydrowattv1"
     }
   }
 }
