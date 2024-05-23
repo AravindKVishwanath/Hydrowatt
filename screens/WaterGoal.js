@@ -26,7 +26,6 @@ const Goals1 = ({ route,navigation }) => {
       const response = await axios.get(`https://electrocode.onrender.com/getIdbyEmail/${email}`)
       setid(response.data._id)
     }
-    waterdata();
     getnewdata();
     setCurrentMonth(getCurrentMonth());
   }, []);

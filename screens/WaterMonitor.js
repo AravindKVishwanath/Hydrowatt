@@ -36,7 +36,7 @@ const WaterMonitor = ({navigation}) => {
 console.log(waterArray)
   const updateWater=async(water)=>{
     try{
-      const response = await axios.put("https://electrocode.onrender.com/waterData/AravindK",water)
+      const response = await axios.put("https://electrocode.onrender.com/waterData/Hydrowatt",water)
       console.log("heloo23",response.data)
     }catch(err){
       console.log(err);
@@ -107,10 +107,10 @@ console.log(waterArray)
       
       <View style={{height:180}}/>
       <View style={{flexDirection:"row",marginLeft:150}}>
-        {/*<TouchableOpacity style={{width:150,height:50,backgroundColor:"#00A894",borderRadius:30,justifyContent:"center",alignItems:"center"}}
+     <TouchableOpacity style={{width:150,height:50,backgroundColor:"#00A894",borderRadius:30,justifyContent:"center",alignItems:"center"}}
          onPress={() => navigation.navigate('WaterGoal')}>
                 <Text>Goals</Text>
-  </TouchableOpacity>*/}
+  </TouchableOpacity>
         <TouchableOpacity onPress={WaterSummary} style={{marginLeft:20,width:150,height:50,backgroundColor:"#00A894",borderRadius:30,justifyContent:"center",alignItems:"center"}}>
                 <Text>Summary</Text>
         </TouchableOpacity>
