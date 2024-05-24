@@ -84,7 +84,7 @@ const WaterProgressBar = () => {
         <Text style={styles.boldText}>Actual Consumption: {TotalConsumption}</Text>
       </View>
       <View style={styles.donutContainer}>
-        <Donut />
+        <Donut percentage={TotalConsumption}/>
       </View>
     </View>
   );

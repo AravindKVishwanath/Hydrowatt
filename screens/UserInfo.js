@@ -104,27 +104,27 @@ const UserInfo = ({ route, navigation }) => {
   }
   const Daily = async (Id) => {
     const daily = {
-      DailyStreak: DailyStreak, ///this value shud be updated 
+      DailyStreak: 3, ///this value shud be updated 
     }
     try {
       response = await axios.put(`https://electrocode.onrender.com/DailyStreak/${Id}`, daily);
       setDailyStreak(response.data.DailyStreak)
       console.log(response.data.DailyStreak)
     } catch (error) {
-      console.error('Error fetching user info:', error);
+      console.error('iuError fetching user info:', error);
       return null;
     }
   }
   const Monthly = async (Id) => {
     const monthly = {
-      MonthlyStreak: MonthlyStreak ///this value shud be updated 
+      MonthlyStreak: 1 ///this value shud be updated 
     }
     try {
       response = await axios.put(`https://electrocode.onrender.com/MonthlyStreak/${Id}`, monthly);
       setMonthlyStreak(response.data.MonthlyStreak)
       console.log(response.data.MonthlyStreak)
     } catch (error) {
-      console.error('Error fetching user info:', error);
+      console.error('uiError fetching user info:', error)
       return null;
     }
   }

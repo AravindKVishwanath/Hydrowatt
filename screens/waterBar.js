@@ -1,4 +1,5 @@
 import React from 'react';
+import { useEffect } from 'react';
 const {calculatedProgress} = require('./WaterProgres.js')
 import {
   Easing,
@@ -16,16 +17,19 @@ const AnimatedTextInput = Animated.createAnimatedComponent(TextInput);
 
 export default function Donut({
 
- //percentage=calculatedProgress,
-  percentage=80,
+ percentage=calculatedProgress,
+  //percentage=80,
   radius = 70,
   strokeWidth = 10,
   duration = 500,
-  color = "#0000FF",
+  color = "#000000",
   delay = 0,
   textColor,
-  max = 100
+  max = 100,
+  
 }) {
+  const TotalConsumption = 0
+  console.log(TotalConsumption)
   const animated = React.useRef(new Animated.Value(0)).current;
   const circleRef = React.useRef();
   const inputRef = React.useRef();
@@ -56,7 +60,7 @@ export default function Donut({
     };
   
 
-  React.useEffect(() => {
+  useEffect(() => {
     animation(percentage);
     animated.addListener((v) => {
       const maxPerc = 100 * v.value / max;

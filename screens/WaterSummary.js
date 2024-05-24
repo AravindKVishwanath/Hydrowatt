@@ -25,10 +25,8 @@ const ElecSummary = ({ navigation }) => {
 
   const formatChartData1 = (rawData) => {
     const formattedData = rawData.map((item) => {
-        console.log("ksljd",item.date)
         const dateParts = item.date.split(' ');
-        console.log(dateParts)
-        const formattedDate = `${selectedMonth} ${dateParts[0]}`; // Format date as "Month Day"
+        const formattedDate = `${dateParts[0]} ${dateParts[1]}`; // Format date as "Month Day"
 
         return {
             value: item.TotalConsumption,
@@ -42,8 +40,8 @@ const ElecSummary = ({ navigation }) => {
   const formatChartData2 = (rawData) => {
     const formattedData = rawData.map((item) => {
         const dateParts = item.date.split(' ');
-        console.log(dateParts)
-        const formattedDate = `${selectedMonth} ${dateParts[0]}`; // Format date as "Month Day"
+        console.log(item)
+        const formattedDate = `${dateParts[0]} ${dateParts[1]}`; // Format date as "Month Day"
 
         return {
             value: item.flowRate,
@@ -71,15 +69,14 @@ const ElecSummary = ({ navigation }) => {
     const getcurrentData = async () => {
         try {
             const response = await axios.get("https://electrocode.onrender.com/getwaterData/Hydrowatt");
-            console.log(response.data.waterData.slice(1))
+            console.log("filter",lineData1.filter(item => item.label.startsWith(selectedMonth)))
             const formattedData1 = formatChartData1(response.data.waterData.slice(1));
             const formattedData2 = formatChartData2(response.data.waterData.slice(1));
-            console.log("ajsdhj",formatChartData1)
             setLineData1(formattedData1);
             setLineData2(formattedData2);
-            console.log(lineData1,lineData2)
+            console.log("sakljd",lineData1,lineData2)
         } catch (error) {
-            console.log("Error fetching data:", error);
+            console.log("Error fetching dat:", error);
         }
     };
 
@@ -147,14 +144,17 @@ const ElecSummary = ({ navigation }) => {
         </Picker>
       <LineChart style={{top: '20'}}
         scrollRef={ref}
-        data={lineData1}
-        //data2 = {lineData.filter(item => item.label.startsWith("Jan"))}
+        data={lineData1.filter(item => item.label.startsWith(selectedMonth))}
+        data2 = {lineData2.filter(item => item.label.startsWith(selectedMonth))}
         curved
-        initialSpacing={0}
+        //initialSpacing={0}
         hideDataPoints
         dataPointsHeight1={12}
-        areaChart1={true}
+        color1="blue"  // Change this to your desired color for the first dataset
+        color2="red"
+        //areaChart1={true}
       />
+      <Text style={{margin:20}}>Total Consumption: 🔵  FlowRate: 🔴</Text>
     </View>
   )
 }

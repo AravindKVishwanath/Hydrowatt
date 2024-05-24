@@ -100,15 +100,16 @@ getUserInfo(Email)
               alignItems: 'center',
               justifyContent: 'center',marginTop:100,borderRadius:10 }} onPress={ElectricityMonitor}>
         <Text style={styles.text3} >Electricity Monitor</Text>
-        <Text style={styles.text5}>Bill amount: ₹1000</Text>
+        {/* <Text style={styles.text5}>Bill amount: ₹1000</Text> */}
         </TouchableOpacity>
         <TouchableOpacity style={{backgroundColor: '#00A894DE',
               width: 310,
               height: 171,
+              display:"flex",
               alignItems: 'center',
               justifyContent: 'center',marginTop:20,borderRadius:10 }} onPress={WaterMonitor}>
         <Text style={styles.text4}>Water Monitor</Text>
-        <Text style={styles.text6}>Bill amount: ₹1090</Text>
+        {/* <Text style={styles.text6}>Bill amount: ₹1090</Text> */}
         </TouchableOpacity>
         <Text style={{width:300, marginTop:130,marginBottom:20, textAlign:"center"}}>"Turning Drops into Dreams and Watts into Wonders: Nurturing a Greener Future."</Text>
     </SafeAreaView>

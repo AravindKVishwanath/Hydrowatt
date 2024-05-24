@@ -27,8 +27,9 @@ const ElecSummary = ({ navigation }) => {
   const formatChartData = (rawData) => {
     const formattedData = rawData.map((item) => {
         const dateParts = item.date.split(' ');
-        const formattedDate = `${selectedMonth} ${dateParts[0]}`; // Format date as "Month Day"
-
+       // console.log("date parts",dateParts)
+        const formattedDate = `${dateParts[0]} ${dateParts[1]}`; // Format date as "Month Day"
+        console.log("date parts",formattedDate)
         return {
             value: item.current,
             label: formattedDate,
@@ -43,7 +44,9 @@ const ElecSummary = ({ navigation }) => {
         try {
             const response = await axios.get("https://electrocode.onrender.com/getCurrentData/Hydrowatt");
             const formattedData = formatChartData(response.data.currentData);
+            //console.log("akjsdhkajsh",formattedData)
             setLineData(formattedData);
+            console.log("jkhdfkj",lineData.filter(item => item.label.startsWith(selectedMonth)))
         } catch (error) {
             console.log("Error fetching data:", error);
         }
@@ -133,8 +136,8 @@ const ElecSummary = ({ navigation }) => {
         </Picker>
       <LineChart style={{top: '20'}}
         scrollRef={ref}
-        //data={lineData2.filter(item => item.data.startsWith(selectedMonth))} // Filter data for selected month
-        data={lineData}
+        //data={lineData.filter(item => item.data.startsWith(selectedMonth))} // Filter data for selected month
+        data={lineData.filter(item => item.label.startsWith(selectedMonth))}
         curved
         initialSpacing={0}
         hideDataPoints
